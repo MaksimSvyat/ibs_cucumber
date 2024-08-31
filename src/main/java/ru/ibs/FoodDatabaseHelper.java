@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FoodDatabaseHelper {
-    private static final String DB_URL = "jdbc:h2:tcp://localhost:9092/mem:testdb";
+    private static final String DB_URL = "jdbc:h2:tcp://149.154.71.152:9092/mem:testdb";
     private static final String USER = "user";
     private static final String PASS = "pass";
 

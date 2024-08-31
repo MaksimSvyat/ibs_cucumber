@@ -6,16 +6,16 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import ru.ibs.BasePage;
-import ru.ibs.FoodDatabaseHelper;
-import ru.ibs.FoodPage;
-import ru.ibs.MainPage;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import ru.ibs.*;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +26,13 @@ public class AddFoodSteps {
     private WebDriver driver;
 
     @Before
-    public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+    public void setUp() throws MalformedURLException {
+        String selenoidUrl = ConfigProvider.readConfig().getString("selenoid.url");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setBrowserName("chrome");
+        capabilities.setVersion("109.0");
+        capabilities.setCapability("selenoid:options", Collections.singletonMap("enableVNC", true));
+        driver = new RemoteWebDriver(URI.create(selenoidUrl).toURL(), capabilities);
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
